@@ -3,7 +3,6 @@
 This repository contains an implementation of the general tree data model and the binary tree for educational purposes.
 
 Implemented models:
-* Tree with `n` children.
 * Binary tree.
 	* Traversal operations:
 		* In-order
