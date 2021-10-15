@@ -12,7 +12,7 @@ namespace rarm_trees
 	class Binary_Tree
 	{
 	public:
-		Binary_Tree(T data);
+		Binary_Tree(T data_val = NULL);
 		Binary_Tree(const Binary_Tree& source); // Deep copy.
 		~Binary_Tree();
 
@@ -30,6 +30,9 @@ namespace rarm_trees
 		// Delete functions.
 		void manual_del_left();
 		void manual_del_right();
+
+		// Get current value.
+		T get_value();
 
 	protected:
 		T data;
@@ -50,6 +53,35 @@ namespace rarm_trees
 		bool insert();
 		bool del(); // delete
 	};	
+}
+
+// General constructor for the Binary_Tree class.
+template <typename T>
+rarm_trees::Binary_Tree<T>::Binary_Tree(T data_val)
+	: data { data_val }
+{
+	this->left = nullptr;
+	this->right = nullptr;
+}
+
+// Copy constructor.
+template <typename T>
+rarm_trees::Binary_Tree<T>::Binary_Tree(const Binary_Tree& source)
+	: Binary_Tree(source.data, *source.left, *source.right)
+{}
+
+// Desctructor.
+template <typename T>
+rarm_trees::Binary_Tree<T>::~Binary_Tree()
+{
+	return;
+}
+
+// Get value.
+template <typename T>
+T rarm_trees::Binary_Tree<T>::get_value()
+{
+	return this->data;
 }
 
 #endif
