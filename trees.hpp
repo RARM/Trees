@@ -55,6 +55,13 @@ namespace rarm_trees
 	};	
 }
 
+/* Creating template classes makes it difficult to
+ * separate the header file of the implementation.
+ * 
+ * Read more about this issue here:
+ * https://isocpp.org/wiki/faq/templates#separate-template-fn-defn-from-decl
+*/
+
 // General constructor for the Binary_Tree class.
 template <typename T>
 rarm_trees::Binary_Tree<T>::Binary_Tree(T data_val)
