@@ -33,11 +33,13 @@ namespace rarm_trees
 
 		// Get current value.
 		T get_value();
+		Binary_Tree<T>* left_child();
+		Binary_Tree<T>* right_child();
 
 	protected:
 		T data;
-		Binary_Tree* left;
-		Binary_Tree* right;
+		Binary_Tree<T>* left;
+		Binary_Tree<T>* right;
 	};
 
 	template <typename T>
@@ -119,11 +121,35 @@ template <typename T>
 void rarm_trees::Binary_Tree<T>::manual_del_right()
 { delete this->right; return; }
 
-// Get value.
+// Traversal operations.
+template <typename T>
+std::string rarm_trees::Binary_Tree<T>::inorder()
+{
+	// This function will produce a string with all the
+	// values in order. The string could then be used
+	// as an output.
+	std::string output;
+
+	// bool isString = std::is_same<T, std::string>::value
+
+	if (this->left != nullptr) output += (*(this->left)).inorder();
+	output += std::string(this->data) + " ";
+	if (this->right != nullptr) output += (*(this->right)).inorder();
+
+	return output;
+}
+
+// Getters.
 template <typename T>
 T rarm_trees::Binary_Tree<T>::get_value()
-{
-	return this->data;
-}
+{ return this->data; }
+
+template <typename T>
+rarm_trees::Binary_Tree<T>* rarm_trees::Binary_Tree<T>::left_child()
+{ return this->left; }
+
+template <typename T>
+rarm_trees::Binary_Tree<T>* rarm_trees::Binary_Tree<T>::right_child()
+{ return this->right; }
 
 #endif
