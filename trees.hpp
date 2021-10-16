@@ -23,6 +23,8 @@ namespace rarm_trees
 
 		// AVOID USING THESE FUNCTIONS BELOW
 		// WHEN WORKING WITH BST.
+		// That could invalidate the BST.
+		
 		// Insert functions.
 		void manual_ins_left(Binary_Tree* data);
 		void manual_ins_right(Binary_Tree* data);
@@ -122,6 +124,9 @@ void rarm_trees::Binary_Tree<T>::manual_del_right()
 { delete this->right; return; }
 
 // Traversal operations.
+
+// inorder: returns the inorder traversal of the tree
+// as a std::string.
 template <typename T>
 std::string rarm_trees::Binary_Tree<T>::inorder()
 {
@@ -135,6 +140,34 @@ std::string rarm_trees::Binary_Tree<T>::inorder()
 	if (this->left != nullptr) output += (*(this->left)).inorder();
 	output += std::string(this->data) + " ";
 	if (this->right != nullptr) output += (*(this->right)).inorder();
+
+	return output;
+}
+
+// preorder: returns the preorder traversal of the tree
+// as a std::string.
+template <typename T>
+std::string rarm_trees::Binary_Tree<T>::preorder()
+{
+	std::string output;
+
+	output += std::string(this->data) + " ";
+	if (this->left != nullptr) output += (*(this->left)).preorder();
+	if (this->right != nullptr) output += (*(this->right)).preorder();
+
+	return output;
+}
+
+// postorder: returns the postorder traversal of the tree
+// as a std::string.
+template <typename T>
+std::string rarm_trees::Binary_Tree<T>::postorder()
+{
+	std::string output;
+
+	if (this->left != nullptr) output += (*(this->left)).postorder();
+	if (this->right != nullptr) output += (*(this->right)).postorder();
+	output += std::string(this->data) += " ";
 
 	return output;
 }
