@@ -33,13 +33,19 @@ int main(int argc, char* argv[])
     std::cout << "Traversal operations:\n"
               << "inorder: " << my_node.inorder() << "\n"
               << "preorder: " << my_node.preorder() << "\n"
-              << "postorder: " << my_node.postorder() << "\n";
+              << "postorder: " << my_node.postorder() << "\n\n\n";
 
 
 
     /* This section demonstrates how to work with Binary Search Trees using the trees library.
      * UNDER CONSTRUCTION.
     */
+    std::cout << "Using the binary search trees.\n";
+
+    // Creating a single BST node.
+    rarm_trees::BST<int> bst_node{ 5 };
+
+    std::cout << "The value of the root of the BST is: " << bst_node.get_value() << "\n";
 
     return 0;
 }

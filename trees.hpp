@@ -12,7 +12,7 @@ namespace rarm_trees
 	class Binary_Tree
 	{
 	public:
-		Binary_Tree(T data_val, Binary_Tree* left = nullptr, Binary_Tree* Right = nullptr);
+		Binary_Tree(T data_val = NULL, Binary_Tree* left = nullptr, Binary_Tree* Right = nullptr);
 		Binary_Tree(const Binary_Tree& source); // Deep copy.
 		~Binary_Tree();
 
@@ -48,7 +48,7 @@ namespace rarm_trees
 	class BST : public Binary_Tree<T>
 	{
 	public:
-		BST(T data);
+		BST(T data_val);
 		BST(const BST& source);
 		~BST();
 
@@ -184,5 +184,46 @@ rarm_trees::Binary_Tree<T>* rarm_trees::Binary_Tree<T>::left_child()
 template <typename T>
 rarm_trees::Binary_Tree<T>* rarm_trees::Binary_Tree<T>::right_child()
 { return this->right; }
+
+
+
+// ---------------------- BINARY SEARCH TREE ----------------------
+
+// BST Constructor
+// Creates a BST node with data of type T.
+// All its children must be the same data type.
+template <typename T>
+rarm_trees::BST<T>::BST(T data_val)
+{
+	this->data = data_val;
+	this->left = nullptr;
+	this->right = nullptr;
+}
+
+// BST Copy Constructor
+// It recursevily rebuilds the tree allocating new memory for the copy.
+template <typename T>
+rarm_trees::BST<T>::BST(const rarm_trees::BST<T>& source)
+{
+	this->data = source.data;
+
+	// Recursively rebuild the tree.
+	this->left = (source.left == nullptr) ? nullptr : new rarm_trees::BST<T>(*(source.left));
+	this->right = (source.right == nullptr) ? nullptr : new rarm_trees::BST<T>(*(source.right));
+
+	return;
+}
+
+// BST Destructor
+// It recursively frees the memory of the nodes of the children of the tree.
+template <typename T>
+rarm_trees::BST<T>::~BST()
+{
+	if (this->left != nullptr) delete this->left;
+	if (this->right != nullptr) delete this->right;
+
+	return;
+}
+
 
 #endif
