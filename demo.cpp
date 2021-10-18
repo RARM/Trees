@@ -2,6 +2,11 @@
 #include "trees.hpp"
 #include <iostream>
 
+template <typename T>
+void tratreop(rarm_trees::Binary_Tree<T> &node);
+template <typename T>
+void tratreop(rarm_trees::BST<T>& node);
+
 int main(int argc, char* argv[])
 {
     /* The section below demonstrates how to use general binary trees (no BST).
@@ -30,22 +35,67 @@ int main(int argc, char* argv[])
     std::cout << "The value of the created node is: " << my_node.get_value() << "\n\n";
 
     // Printing traversal operations.
-    std::cout << "Traversal operations:\n"
-              << "inorder: " << my_node.inorder() << "\n"
-              << "preorder: " << my_node.preorder() << "\n"
-              << "postorder: " << my_node.postorder() << "\n\n\n";
+    tratreop(my_node);
 
 
 
     /* This section demonstrates how to work with Binary Search Trees using the trees library.
      * UNDER CONSTRUCTION.
     */
-    std::cout << "Using the binary search trees.\n";
+    std::cout << "Using the binary search trees.\n\n";
 
     // Creating a single BST node.
-    rarm_trees::BST<int> bst_node{ 5 };
+    rarm_trees::BST<int> bst_node{ 10 };
 
-    std::cout << "The value of the root of the BST is: " << bst_node.get_value() << "\n";
+    std::cout << "The value of the root of the BST is: " << bst_node.get_value() << "\n\n";
+
+    // Inserting values to the BST.
+    bst_node.insert(5);
+    bst_node.insert(2);
+
+    bst_node.insert(15);
+    bst_node.insert(12);
+    bst_node.insert(20);
+
+    // Reading traversal of BST.
+    tratreop(bst_node);
+
+    // Search a specific node in the tree.
+    rarm_trees::BST<int> search_val = *bst_node.search(15);
+
+    // Printing traversal operations of the found node.
+    // It should print only tree values.
+    tratreop(search_val);
+
+    // Inserting a value that already exists in the BST should not modify it.
+    search_val.insert(12);
+    tratreop(search_val);
 
     return 0;
+}
+
+
+
+// Traversal Tree Operaions
+// Print all traversal operations (inorder, preorder, and postorder) of a tree given the root node.
+template <typename T>
+void tratreop(rarm_trees::Binary_Tree<T>& node)
+{
+    std::cout << "Traversal operations of the Binary Tree:\n"
+              << "inorder: " << node.inorder() << "\n"
+              << "preorder: " << node.preorder() << "\n"
+              << "postorder: " << node.postorder() << "\n\n";
+    return;
+}
+
+// Traversal Tree Operaions
+// Print all traversal operations (inorder, preorder, and postorder) of a tree given the root node.
+template <typename T>
+void tratreop(rarm_trees::BST<T>& node)
+{
+    std::cout << "Traversal operations of the BST:\n"
+              << "inorder: " << node.inorder() << "\n"
+              << "preorder: " << node.preorder() << "\n"
+              << "postorder: " << node.postorder() << "\n\n";
+    return;
 }
