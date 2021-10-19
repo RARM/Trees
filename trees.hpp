@@ -4,6 +4,7 @@
 #define _TREES_H_
 
 #include <string>
+#include <vector>
 
 namespace rarm_trees
 {
@@ -49,16 +50,19 @@ namespace rarm_trees
 		~BST();
 
 		T get_value();
+		bool is_leaf();
 
 		// Traversal functions.
 		std::string inorder();
 		std::string preorder();
 		std::string postorder();
 
+		BST* inorder_successor();
+
 		// Functions
 		BST* search(T search_value);
 		BST* insert(T new_val);
-		// bool del(T val_to_del); // delete node
+		BST*  del(T val_to_del); // delete node
 
 	protected:
 		T data;

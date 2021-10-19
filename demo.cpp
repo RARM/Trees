@@ -60,6 +60,9 @@ int main(int argc, char* argv[])
     // Reading traversal of BST.
     tratreop(bst_node);
 
+    // Using the inorder_successor method.
+    std::cout << "The inorder successor of " << bst_node.get_value() << " is: " << (*bst_node.inorder_successor()).get_value() << ".\n\n";
+
     // Search a specific node in the tree.
     rarm_trees::BST<int> search_val = *bst_node.search(15);
 
@@ -70,6 +73,25 @@ int main(int argc, char* argv[])
     // Inserting a value that already exists in the BST should not modify it.
     search_val.insert(12);
     tratreop(search_val);
+
+    // Creating a new BST to test deletion.
+    rarm_trees::BST<int> bst_root(5);
+    bst_root.insert(2);
+    bst_root.insert(-4);
+    bst_root.insert(3);
+
+    bst_root.insert(12);
+    bst_root.insert(9);
+    bst_root.insert(21);
+    bst_root.insert(21);
+    bst_root.insert(25);
+
+    std::cout << "\nCreating a new Binary Search Tree.\n";
+    tratreop(bst_root);
+
+    std::cout << "Deleting 12 from the tree.\n";
+    bst_root.del(12);
+    tratreop(bst_root);
 
     return 0;
 }

@@ -138,7 +138,7 @@ std::string rarm_trees::Binary_Tree<T>::postorder()
 
 	if (this->left != nullptr) output += (*(this->left)).postorder();
 	if (this->right != nullptr) output += (*(this->right)).postorder();
-	output += std::to_string(this->data) += " ";
+	output += std::to_string(this->data) + " ";
 
 	return output;
 }
@@ -151,7 +151,7 @@ std::string rarm_trees::Binary_Tree<std::string>::postorder()
 
 	if (this->left != nullptr) output += (*(this->left)).postorder();
 	if (this->right != nullptr) output += (*(this->right)).postorder();
-	output += this->data += " ";
+	output += this->data + " ";
 
 	return output;
 }
@@ -218,6 +218,10 @@ template <typename T>
 T rarm_trees::BST<T>::get_value()
 { return this->data; }
 
+template <typename T>
+bool rarm_trees::BST<T>::is_leaf()
+{ return (this->left == nullptr && this->right == nullptr) ? true : false; }
+
 // Traversal operations.
 
 // inorder: returns the inorder traversal of the tree
@@ -283,7 +287,7 @@ std::string rarm_trees::BST<T>::postorder()
 
 	if (this->left != nullptr) output += (*(this->left)).postorder();
 	if (this->right != nullptr) output += (*(this->right)).postorder();
-	output += std::to_string(this->data) += " ";
+	output += std::to_string(this->data) + " ";
 
 	return output;
 }
@@ -296,9 +300,25 @@ std::string rarm_trees::BST<std::string>::postorder()
 
 	if (this->left != nullptr) output += (*(this->left)).postorder();
 	if (this->right != nullptr) output += (*(this->right)).postorder();
-	output += this->data += " ";
+	output += this->data + " ";
 
 	return output;
+}
+
+// inorder_successor
+// Returns the pointer to the inorder successor of the node.
+// If the node has no successor, it will return a pointer to itself.
+template <typename T>
+rarm_trees::BST<T>* rarm_trees::BST<T>::inorder_successor()
+{
+	if (this->right == nullptr) return this;
+	else
+	{
+		rarm_trees::BST<T>* controller = this->right;
+		while (controller->left != nullptr)
+			controller = controller->left;
+		return controller;
+	}
 }
 
 // Search, insert, delete.
@@ -329,6 +349,70 @@ rarm_trees::BST<T>* rarm_trees::BST<T>::insert(T new_val)
 		else return (this->right = new rarm_trees::BST<T>(new_val));
 }
 
+
+// Delete
+// It returns true if it was possible to remove the node;
+// it returns false otherwise.
+template <typename T>
+rarm_trees::BST<T>* rarm_trees::BST<T>::del(T val_to_del)
+{
+	// Three cases:
+	// 1. Node to be deleted is a leaf.
+	// 2. Node to be deleted has a child.
+	// 3. Node to be deleted has two children.
+
+	// Working with recursive functions.
+
+	if (this == nullptr) return this;
+	else if (val_to_del < this->data)
+	{
+		this->left = (*this->left).del(val_to_del);
+		return this;
+	}
+	else if (val_to_del > this->data)
+	{
+		this->right = (*this->right).del(val_to_del);
+		return this;
+	}
+
+	// If this is the node to be deleted...
+	else
+	{
+		// Case 1: this is a leaf.
+		if (this->is_leaf())
+		{
+			delete this;
+			return nullptr;
+		}
+
+		// Case 2: has one child.
+		else if (this->left == nullptr) // Child is on the right.
+		{
+			rarm_trees::BST<T>* temp = new rarm_trees::BST<T>((*this->right));
+			delete this->right;
+			return temp;
+		}
+		else if (this->right == nullptr) // Child is on the left.
+		{
+			rarm_trees::BST<T>* temp = new rarm_trees::BST<T>((*this->left));
+			delete this->left;
+			return temp;
+		}
+
+		// Case 3: node has two children.
+		else
+		{
+			// Transfer data of the inoders successor.
+			T temp_data = (*this->inorder_successor()).data;
+			this->data = temp_data;
+
+			// Delete inorder successor.
+			this->right = (*this->right).del(data);
+
+			return this;
+		}
+	}
+}
 
 /* Creating template classes makes it difficult to
  * separate the header file of the implementation.
