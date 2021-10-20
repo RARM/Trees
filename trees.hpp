@@ -8,31 +8,68 @@
 
 namespace rarm_trees
 {
-	// Binary Tree
+	// ------------------------------ BINARY TREE ------------------------------
+
+	// Binary Tree with some trivial opeartion and traversal methods.
 	template <typename T>
 	class Binary_Tree
 	{
 	public:
+		// --------------------------- CONSTRUCTORS ----------------------------
+
+		// Binary Tree constructor.
 		Binary_Tree(T data_val, Binary_Tree* left = nullptr, Binary_Tree* Right = nullptr);
-		Binary_Tree(const Binary_Tree& source); // Deep copy.
+
+		// Binary Tree deep copy constructor.
+		Binary_Tree(const Binary_Tree& source);
+
+		// Binary Tree destructor.
 		~Binary_Tree();
 
-		// Traversal functions.
+
+
+		// ----------------------- TRAVERSAL OPERATIONS ------------------------
+
+		// Traversal inorder operation that returns a std::string.
 		std::string inorder();
+
+		// Traversal preorder operation that returns a std::string.
 		std::string preorder();
+
+		// Traversal postorder operation that returns a std::string.
 		std::string postorder();
-		
-		// Insert functions.
-		void manual_ins_left(Binary_Tree* data);
-		void manual_ins_right(Binary_Tree* data);
 
-		// Delete functions.
-		void manual_del_left();
-		void manual_del_right();
 
-		// Get current value.
+
+		// ------------------------- INSERT FUNCTIONS --------------------------
+
+		// Insert a Binary Tree instance as the left child of this node.
+		void ins_left(Binary_Tree* data);
+
+		// Insert a Binary Tree instance as the right child of this node.
+		void ins_right(Binary_Tree* data);
+
+
+
+		// ------------------------- DELETE FUNCTIONS --------------------------
+
+		// Deallocate the tree of the left recursively. Set left to nullptr.
+		void del_left();
+
+		// Deallocate the tree of the right recursively. Set right to nullptr.
+		void del_right();
+
+
+
+		// ------------------------------ GETTERS ------------------------------
+
+		// Get the value of this node.
 		T get_value();
+
+		// Get pointer of the left child.
 		Binary_Tree<T>* left_child();
+
+		// Get poiner of the right child.
 		Binary_Tree<T>* right_child();
 
 	protected:
@@ -41,34 +78,71 @@ namespace rarm_trees
 		Binary_Tree<T>* right;
 	};
 
+
+
+	// -------------------------- BINARY SEARCH TREE ---------------------------
+
 	template <typename T>
 	class BST
 	{
 	public:
+		// --------------------------- CONSTRUCTORS ----------------------------
+
+		// Binary Search Tree constructor.
 		BST(T data_val);
+
+		// Binary Search Tree deep copy constructor.
 		BST(const BST& source);
+
+		// Binary Search Tree destructor.
 		~BST();
 
+
+
+		// ------------------------ TRIVIAL OPERATIONS -------------------------
+
+		// Get value of the node.
 		T get_value();
+
+		// Returns true if both children are nullptr.
 		bool is_leaf();
 
-		// Traversal functions.
+
+
+		// ----------------------- TRAVERSAL OPERATIONS ------------------------
+
+		// Traversal inorder operation that returns a std::string.
 		std::string inorder();
+
+		// Traversal preorder operation that returns a std::string.
 		std::string preorder();
+
+		// Traversal postorder operation that returns a std::string.
 		std::string postorder();
 
+		// Helper for deletion method. Returns inorder successor's pointer.
 		BST* inorder_successor();
 
-		// Functions
+
+
+		// -------------------------- BST OPEARTIONS ---------------------------
+		// Operations for searching, inserting, and deleting nodes to the BST
+		// maintaining its structure.
+
+		// Returns pointer to node that cointains the search_value (key).
 		BST* search(T search_value);
+
+		// Inserts a new node with the given value to the BST.
 		BST* insert(T new_val);
-		BST*  del(T val_to_del); // delete node
+
+		// Properly deletes the node containing the given value.
+		BST* del(T val_to_del);
 
 	protected:
 		T data;
 		BST<T>* left;
 		BST<T>* right;
-	};	
+	};
 }
 
 #endif

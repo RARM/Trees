@@ -1,80 +1,95 @@
 // trees.cpp -- Implementation of the rarm_trees library.
 #include "trees.hpp"
 
-// ---------------------- BINARY TREE ----------------------
-// General constructor for the Binary_Tree class.
+// -------------------------------- BINARY TREE --------------------------------
+
+// Constructor for the Binary_Tree class.
 template <typename T>
 rarm_trees::Binary_Tree<T>::Binary_Tree(T data_val, Binary_Tree* left, Binary_Tree* right)
 	: data{ data_val }
 {
-	// Left tree.
-	this->left = (left == nullptr) ? nullptr : new Binary_Tree(*left);
-
-	// Right tree.
-	this->right = (right == nullptr) ? nullptr : new Binary_Tree(*right);
+	this->left = (left == nullptr) ? nullptr : new Binary_Tree(*left); // Left tree.
+	this->right = (right == nullptr) ? nullptr : new Binary_Tree(*right); // Right tree.
+	return;
 }
 
-// Copy constructor.
+// Deep copy constructor for the Binary_Tree class.
 template <typename T>
 rarm_trees::Binary_Tree<T>::Binary_Tree(const Binary_Tree& source)
 	: data{ source.data }
 {
-	// Left tree.
-	this->left = (source.left == nullptr) ? nullptr : new Binary_Tree(*(source.left));
-
-	// Right tree.
-	this->right = (source.right == nullptr) ? nullptr : new Binary_Tree(*(source.right));
-}
-
-// Desctructor.
-template <typename T>
-rarm_trees::Binary_Tree<T>::~Binary_Tree()
-{
-	if (this->left != nullptr) delete this->left;
-	if (this->right != nullptr) delete this->right;
+	this->left = (source.left == nullptr) ? nullptr : new Binary_Tree(*(source.left)); // Left tree.
+	this->right = (source.right == nullptr) ? nullptr : new Binary_Tree(*(source.right)); // Right tree.
 	return;
 }
 
-// Manual insertions.
-
+// Destructor for the Binary_Tree class.
 template <typename T>
-void rarm_trees::Binary_Tree<T>::manual_ins_left(Binary_Tree* data)
+rarm_trees::Binary_Tree<T>::~Binary_Tree()
+{
+	// Recursively delete children and set left and right to nullptr.
+
+	if (this->left != nullptr)
+	{
+		delete this->left;
+		this->left = nullptr;
+	}
+
+	if (this->right != nullptr)
+	{
+		delete this->right;
+		this->right = nullptr;
+	}
+
+	return;
+}
+
+// ----------------------------- INSERT FUNCTIONS ------------------------------
+
+// Add the pointer of another Binary_Tree as the left child of the node.
+template <typename T>
+void rarm_trees::Binary_Tree<T>::ins_left(Binary_Tree* data)
 {
 	this->left = data; return;
 }
 
+// Add the pointer of another Binary_Tree as the right child of the node.
 template <typename T>
-void rarm_trees::Binary_Tree<T>::manual_ins_right(Binary_Tree* data)
+void rarm_trees::Binary_Tree<T>::ins_right(Binary_Tree* data)
 {
 	this->right = data; return;
 }
 
-// Manual deletions.
-// These functions will recursively delete a node and all its childrens.
-// The recursion is done in the destructor.
+// ----------------------------- DELETE FUNCTIONS ------------------------------
 
+// Deallocates the node on the left and all its children. Then, it sets the left
+// child to nullptr.
 template <typename T>
-void rarm_trees::Binary_Tree<T>::manual_del_left()
+void rarm_trees::Binary_Tree<T>::del_left()
 {
-	delete this->left; return;
+	delete this->left;
+	this->left = nullptr;
+	return;
 }
 
+// Deallocates the node on the right and all its children. Then, it sets the
+// right child to nullptr.
 template <typename T>
-void rarm_trees::Binary_Tree<T>::manual_del_right()
+void rarm_trees::Binary_Tree<T>::del_right()
 {
-	delete this->right; return;
+	delete this->right;
+	this->right = nullptr;
+	return;
 }
 
-// Traversal operations.
+// --------------------------- TRAVERSAL OPERATIONS ----------------------------
 
-// inorder: returns the inorder traversal of the tree
-// as a std::string.
+// Returns std::string containing the inorder traversal of the tree.
 template <typename T>
 std::string rarm_trees::Binary_Tree<T>::inorder()
 {
-	// This function will produce a string with all the
-	// values in order. The string could then be used
-	// as an output.
+	// This function will produce a string with all the values inorder. The
+	// string could then be used for output.
 	std::string output;
 
 	if (this->left != nullptr) output += (*(this->left)).inorder();
@@ -87,9 +102,10 @@ std::string rarm_trees::Binary_Tree<T>::inorder()
 // Read more about specialized templates here:
 // https://en.cppreference.com/w/cpp/language/template_specialization
 
-// This is an explicit class specialization.
-// It works specifically for std::string.
-// It behaves as the normal template.
+// Converting the data to string is not necessary. It will throw a compilation
+// error. Therefore, a specialized implementation is useful in this scenario.
+
+// Explicit class specialization for std::string of inorder traversal operation.
 template<>
 std::string rarm_trees::Binary_Tree<std::string>::inorder()
 {
@@ -102,8 +118,7 @@ std::string rarm_trees::Binary_Tree<std::string>::inorder()
 	return output;
 }
 
-// preorder: returns the preorder traversal of the tree
-// as a std::string.
+// Returns std::string containing the preorder traversal of the tree.
 template <typename T>
 std::string rarm_trees::Binary_Tree<T>::preorder()
 {
@@ -116,7 +131,8 @@ std::string rarm_trees::Binary_Tree<T>::preorder()
 	return output;
 }
 
-// preorder specialized class template.
+// Explicit class specialization for std::string of preorder traversal
+// operation.
 template <>
 std::string rarm_trees::Binary_Tree<std::string>::preorder()
 {
@@ -129,8 +145,7 @@ std::string rarm_trees::Binary_Tree<std::string>::preorder()
 	return output;
 }
 
-// postorder: returns the postorder traversal of the tree
-// as a std::string.
+// Returns std::string containing the postorder traversal of the tree.
 template <typename T>
 std::string rarm_trees::Binary_Tree<T>::postorder()
 {
@@ -143,7 +158,8 @@ std::string rarm_trees::Binary_Tree<T>::postorder()
 	return output;
 }
 
-// postorder specialized class template.
+// Explicit class specialization for std::string of postorder traversal
+// operation.
 template <>
 std::string rarm_trees::Binary_Tree<std::string>::postorder()
 {
@@ -156,31 +172,34 @@ std::string rarm_trees::Binary_Tree<std::string>::postorder()
 	return output;
 }
 
-// Getters.
+// ---------------------------------- GETTERS ----------------------------------
 
+// Returns the value of the current node.
 template <typename T>
 T rarm_trees::Binary_Tree<T>::get_value()
 {
 	return this->data;
 }
 
+// Returns pointer to the left child of the current node.
 template <typename T>
 rarm_trees::Binary_Tree<T>* rarm_trees::Binary_Tree<T>::left_child()
 {
 	return this->left;
 }
 
+// Returns pointer to the right child of the current node.
 template <typename T>
 rarm_trees::Binary_Tree<T>* rarm_trees::Binary_Tree<T>::right_child()
 {
 	return this->right;
 }
 
-// ---------------------- BINARY SEARCH TREE ----------------------
 
-// BST Constructor
-// Creates a BST node with data of type T.
-// All its children must be the same data type.
+
+// ---------------------------- BINARY SEARCH TREE -----------------------------
+
+// Constructor for the Binary Search Tree (BST).
 template <typename T>
 rarm_trees::BST<T>::BST(T data_val)
 {
@@ -189,43 +208,55 @@ rarm_trees::BST<T>::BST(T data_val)
 	this->right = nullptr;
 }
 
-// BST Copy Constructor
-// It recursevily rebuilds the tree allocating new memory for the copy.
+// Deep copy constructor for the Binary Search Tree (BST).
 template <typename T>
 rarm_trees::BST<T>::BST(const rarm_trees::BST<T>& source)
 {
 	this->data = source.data;
 
 	// Recursively rebuild the tree.
-	this->left = (source.left == nullptr) ? nullptr : new rarm_trees::BST<T>(*(source.left));
-	this->right = (source.right == nullptr) ? nullptr : new rarm_trees::BST<T>(*(source.right));
+	this->left = (source.left == nullptr) ? nullptr : new rarm_trees::BST<T>(*source.left);
+	this->right = (source.right == nullptr) ? nullptr : new rarm_trees::BST<T>(*source.right);
 
 	return;
 }
 
-// BST Destructor
-// It recursively frees the memory of the nodes of the children of the tree.
+// Destructor for the Binary Search Tree (BST).
 template <typename T>
 rarm_trees::BST<T>::~BST()
 {
-	if (this->left != nullptr) delete this->left;
-	if (this->right != nullptr) delete this->right;
+	// Recursively delete children and set left and right to nullptr.
+
+	if (this->left != nullptr)
+	{
+		delete this->left;
+		this->left = nullptr;
+	}
+
+	if (this->right != nullptr)
+	{
+		delete this->right;
+		this->right = nullptr;
+	}
 
 	return;
 }
 
+// ---------------------------------- GETTERS ----------------------------------
+
+// Retuns the data of this node.
 template <typename T>
 T rarm_trees::BST<T>::get_value()
 { return this->data; }
 
+// Returns true if both children are nullptr; return true otherwise.
 template <typename T>
 bool rarm_trees::BST<T>::is_leaf()
 { return (this->left == nullptr && this->right == nullptr) ? true : false; }
 
-// Traversal operations.
+// --------------------------- TRAVERSAL OPERATIONS ----------------------------
 
-// inorder: returns the inorder traversal of the tree
-// as a std::string.
+// Returns std::string containing the inorder traversal of the tree.
 template <typename T>
 std::string rarm_trees::BST<T>::inorder()
 {
@@ -238,7 +269,7 @@ std::string rarm_trees::BST<T>::inorder()
 	return output;
 }
 
-// BST specialized inorder.
+// Explicit class specialization for std::string of inorder traversal opeartion.
 template<>
 std::string rarm_trees::BST<std::string>::inorder()
 {
@@ -251,8 +282,7 @@ std::string rarm_trees::BST<std::string>::inorder()
 	return output;
 }
 
-// preorder: returns the preorder traversal of the tree
-// as a std::string.
+// Returns std::string containing the preorder traversal of the tree.
 template <typename T>
 std::string rarm_trees::BST<T>::preorder()
 {
@@ -265,7 +295,8 @@ std::string rarm_trees::BST<T>::preorder()
 	return output;
 }
 
-// BST specialized preorder.
+// Explicit class specialization for std::string of preorder traversal
+// opeartion.
 template <>
 std::string rarm_trees::BST<std::string>::preorder()
 {
@@ -278,8 +309,7 @@ std::string rarm_trees::BST<std::string>::preorder()
 	return output;
 }
 
-// postorder: returns the postorder traversal of the tree
-// as a std::string.
+// Returns std::string containing the postorder traversal of the tree.
 template <typename T>
 std::string rarm_trees::BST<T>::postorder()
 {
@@ -292,7 +322,8 @@ std::string rarm_trees::BST<T>::postorder()
 	return output;
 }
 
-// BST specialized postorder.
+// Explicit class specialization for std::string of postorder traversal
+// operation.
 template <>
 std::string rarm_trees::BST<std::string>::postorder()
 {
@@ -305,9 +336,9 @@ std::string rarm_trees::BST<std::string>::postorder()
 	return output;
 }
 
-// inorder_successor
-// Returns the pointer to the inorder successor of the node.
-// If the node has no successor, it will return a pointer to itself.
+// Helper method for the delete operation. It returns the inorder successor of
+// of the current node. It returns a pointer to itself if no successor is
+// available.
 template <typename T>
 rarm_trees::BST<T>* rarm_trees::BST<T>::inorder_successor()
 {
@@ -321,10 +352,9 @@ rarm_trees::BST<T>* rarm_trees::BST<T>::inorder_successor()
 	}
 }
 
-// Search, insert, delete.
+//----------------------------- BST OPEARTIONS ---------------------------------
 
-// Search
-// Given a value, the function will return the pointer to that address.
+// Returns pointer to node that cointains the given search_value (key).
 template <typename T>
 rarm_trees::BST<T>* rarm_trees::BST<T>::search(T search_value)
 {
@@ -334,9 +364,9 @@ rarm_trees::BST<T>* rarm_trees::BST<T>::search(T search_value)
 	else return nullptr;
 }
 
-// Insert
-// It adds the given value on the respective index to keep the valid search tree.
-// If the value already exists, it behaves like the search method.
+// Inserts a new node with the given value to the BST. It maintains the validity
+// of the Binary Search Tree. If the value already exists on the tree, it will
+// behave like the search operation.
 template <typename T>
 rarm_trees::BST<T>* rarm_trees::BST<T>::insert(T new_val)
 {
@@ -350,9 +380,8 @@ rarm_trees::BST<T>* rarm_trees::BST<T>::insert(T new_val)
 }
 
 
-// Delete
-// It returns true if it was possible to remove the node;
-// it returns false otherwise.
+// It deletes the node containing the given val_to_del (key). Return value is
+// used for recursion.
 template <typename T>
 rarm_trees::BST<T>* rarm_trees::BST<T>::del(T val_to_del)
 {
@@ -414,8 +443,8 @@ rarm_trees::BST<T>* rarm_trees::BST<T>::del(T val_to_del)
 	}
 }
 
-/* Creating template classes makes it difficult to
- * separate the header file of the implementation.
+/* Creating template classes makes it difficult to separate the header file of
+ * the implementation.
  *
  * Read more about this issue here:
  * https://isocpp.org/wiki/faq/templates#separate-template-fn-defn-from-decl

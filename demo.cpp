@@ -17,19 +17,19 @@ int main(int argc, char* argv[])
     rarm_trees::Binary_Tree<std::string> my_node("A");
     
     // Children.
-    my_node.manual_ins_left(new rarm_trees::Binary_Tree<std::string>("B"));
-    my_node.manual_ins_right(new rarm_trees::Binary_Tree<std::string>("C"));
+    my_node.ins_left(new rarm_trees::Binary_Tree<std::string>("B"));
+    my_node.ins_right(new rarm_trees::Binary_Tree<std::string>("C"));
 
     // Adding children to the left branch.
-    (*my_node.left_child()).manual_ins_left(new rarm_trees::Binary_Tree<std::string>("D"));
-    (*my_node.left_child()).manual_ins_right(new rarm_trees::Binary_Tree<std::string>("E"));
+    (*my_node.left_child()).ins_left(new rarm_trees::Binary_Tree<std::string>("D"));
+    (*my_node.left_child()).ins_right(new rarm_trees::Binary_Tree<std::string>("E"));
 
-    (*(*my_node.left_child()).right_child()).manual_ins_left(new rarm_trees::Binary_Tree<std::string>("H"));
-    (*(*my_node.left_child()).right_child()).manual_ins_right(new rarm_trees::Binary_Tree<std::string>("I"));
+    (*(*my_node.left_child()).right_child()).ins_left(new rarm_trees::Binary_Tree<std::string>("H"));
+    (*(*my_node.left_child()).right_child()).ins_right(new rarm_trees::Binary_Tree<std::string>("I"));
 
     // Adding children to thre right branch.
-    (*my_node.right_child()).manual_ins_left(new rarm_trees::Binary_Tree<std::string>("F"));
-    (*my_node.right_child()).manual_ins_right(new rarm_trees::Binary_Tree<std::string>("G"));
+    (*my_node.right_child()).ins_left(new rarm_trees::Binary_Tree<std::string>("F"));
+    (*my_node.right_child()).ins_right(new rarm_trees::Binary_Tree<std::string>("G"));
 
     // Printing values.
     std::cout << "The value of the created node is: " << my_node.get_value() << "\n\n";
